@@ -3,6 +3,7 @@ import StandardRoutes from './routes/StandardRoutes';
 import BaseLayout from './layouts/BaseLayout';
 import FreeLayout from './layouts/FreeLayout';
 import { useLocation } from 'react-router';
+import Layout from './layouts/Layout';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -12,10 +13,9 @@ function App() {
 
   return (
     <>
-    {["/login","/signup"].includes(location.pathname) ? (<FreeLayout>
-      <StandardRoutes/></FreeLayout>):(<BaseLayout>
+    <Layout>
       <StandardRoutes/>
-    </BaseLayout>)}
+    </Layout>
     </>
   );
 }
