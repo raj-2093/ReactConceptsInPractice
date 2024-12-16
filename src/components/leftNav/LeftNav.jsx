@@ -15,10 +15,16 @@ export default function LeftNav() {
       <nav>
         <ul>
           <li>
-            <Link to={"/ConceptUseState"}>Use State hook</Link>
+            <Link to={"/Concept-use-state"}>Use State hook</Link>
           </li>
           <li>
-            <Link to={"/ConceptUseReducer"}>Use Reducer Hook</Link>
+            <Link to={"/Concept-use-reducer"}>Use Reducer Hook</Link>
+          </li>
+          <li>
+            <Link to={"/Concept-use-effect-hook"}>Use Effect Hook</Link>
+          </li>
+          <li>
+            <Link to={"/Concept-use-ref"}>Use Ref</Link>
           </li>
           <li>
             <Link to={"/is"}>is</Link>
