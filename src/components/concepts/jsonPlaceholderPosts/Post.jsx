@@ -3,7 +3,6 @@ import Comment from "./Comment";
 
 export default function Post({ title, userID, body, comments, id }) {
   useEffect(() => {}, []);
-  console.log("rj_ COmments ,", comments);
   //   const thisPostComment = comments.filter((comment) => {
   //     console.log("rj_ comment.postId -- ", comment.postId);
   //     return comment.postId == id;
@@ -53,31 +52,52 @@ export default function Post({ title, userID, body, comments, id }) {
           </p>
         </div>
         <div className="comment-toggle">
-          <button>Open Comments</button>
+          <button
+            onClick={() => {
+              setCommentOpen(!commentOpen);
+            }}
+          >
+            Open Comments
+          </button>
         </div>
       </div>
 
       <div
         className="comments"
         style={{
-          height: "100%",
-          display: !commentOpen ? "block" : "none",
+          height: "250px",
+          overflow: "auto",
+          display: commentOpen ? "block" : "none",
         }}
       >
         <div className="label">
-          <span>Comments - {comments?.length} users commented</span>
+          <h3>Comments - {comments?.length} users commented</h3>
         </div>
-        <div className="comment-list">
-          {/* {comments.map((comment) => {
+        <hr />
+        <div
+          className="comment-list"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "12px",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div className="add-comment-button">
+            <input type="text" name="" id="" placeholder="Add a comment" />
+            <button>Post comment</button>
+          </div>
+          {comments.map((comment) => {
             return (
               <Comment
-                name={comments.name}
-                email={comments.email}
-                body={comments.body}
-                key={comments.id}
+                name={comment.name}
+                email={comment.email}
+                body={comment.body}
+                key={comment.id}
               />
             );
-          })} */}
+          })}
         </div>
       </div>
     </div>

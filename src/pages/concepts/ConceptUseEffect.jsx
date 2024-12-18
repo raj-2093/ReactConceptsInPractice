@@ -17,14 +17,14 @@ export default function ConceptUseEffect() {
         </div>
         <div
           className="json-placeholder-api"
-          style={{
-            height: "70vh",
-            overflow: "auto",
-            border: "1px solid black",
-            borderRadius: "10px",
-            padding: "20px",
-            scrollbarWidth: "none",
-          }}
+          // style={{
+          //   height: "70vh",
+          //   overflow: "auto",
+          //   border: "1px solid black",
+          //   borderRadius: "10px",
+          //   padding: "20px",
+          //   scrollbarWidth: "none",
+          // }}
         >
           <PostsWrapper />
         </div>

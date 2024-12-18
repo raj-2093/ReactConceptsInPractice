@@ -4,33 +4,106 @@ import SimpleLoader from "../SimpleLoader";
 
 export default function PostsWrapper() {
   const [posts, setPosts] = useState([]);
+  const [newPostTitle, setNewPostTitle] = useState("");
+  const [newPostBody, setNewPostBody] = useState("");
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/posts")
       .then((response) => response.json())
-      .then((jsonRes) => {
-        console.log("Response - ", jsonRes);
-        setPosts(jsonRes);
-        console.log("posts - ", posts);
-        // console.log(
-        //   "posts[0] - ",
-        //   posts.map((post, index) => {
-        //     console.log(`post[${index}] - `, post);
-        //   })
-        // );
-      });
+      .then((jsonPostRes) => {
+        fetch("https://jsonplaceholder.typicode.com/comments")
+          .then((response) => response.json())
+          .then((jsonCommentRes) => {
+            console.log("Comments - ", jsonCommentRes);
+            for (const post of jsonPostRes) {
+              post.comments = [];
+            }
 
-    fetch("https://jsonplaceholder.typicode.com/comments")
-      .then((response) => response.json())
-      .then((jsonRes) => {
-        console.log("Comments - ", jsonRes);
-        setComments(jsonRes);
+            for (const comment of jsonCommentRes) {
+              jsonPostRes.forEach((post) => {
+                if (post.id == comment.postId) {
+                  post.comments.push(comment);
+                }
+              });
+            }
+
+            setPosts(jsonPostRes);
+            // setComments(jsonCommentRes);
+          });
+
+        // setPosts(jsonPostRes);
       });
   }, []);
 
   return (
-    <div className="posts-wrapper">
+    <div
+      className="posts-wrapper"
+      style={{
+        height: "70vh",
+        overflow: "auto",
+        border: "1px solid black",
+        borderRadius: "10px",
+        padding: "20px",
+        scrollbarWidth: "none",
+        position: "relative",
+      }}
+    >
+      <div className="add-new-post">
+        <div className="label">
+          <h2>Add new Posts</h2>
+        </div>
+
+        <div className="form">
+          <form
+            action=""
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (
+                newPostTitle != "" &&
+                newPostTitle != null &&
+                newPostBody != "" &&
+                newPostBody != null
+              ) {
+                fetch("https://jsonplaceholder.typicode.com/posts", {
+                  method: "POST",
+                  body: JSON.stringify({
+                    title: newPostTitle,
+                    body: newPostBody,
+                    userId: 1,
+                  }),
+                  headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                  },
+                })
+                  .then((response) => response.json())
+                  .then((postJsonRes) => {
+                    posts.push(postJsonRes);
+                    console.log(postJsonRes);
+                  });
+              }
+            }}
+          >
+            <input
+              type="text"
+              name=""
+              id="new-post-title"
+              value={newPostTitle}
+              onChange={(e) => setNewPostTitle(e.target.value)}
+              placeholder="Enter Title"
+            />
+            <input
+              type="text"
+              name=""
+              id="new-post-body"
+              value={newPostBody}
+              onChange={(e) => setNewPostBody(e.target.value)}
+              placeholder="Write a new post"
+            />
+            <input type="submit" value="Post" />
+          </form>
+        </div>
+      </div>
       <div className="label">
         <h2>Recommended Posts</h2>
       </div>
@@ -64,7 +137,7 @@ export default function PostsWrapper() {
                 //     return postComments;
                 //   }}
                 //   comments={comments.filter((comment) => comment.postId == post.id)}
-                comments={comments}
+                comments={post.comments}
               />
             );
           })
